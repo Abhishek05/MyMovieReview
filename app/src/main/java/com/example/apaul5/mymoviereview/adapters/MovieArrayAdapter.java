@@ -23,6 +23,13 @@ import java.util.List;
  */
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
+    private static class ViewHolder {
+        ImageView ivView;
+        TextView txTitle;
+        TextView txDesc;
+    }
+
+
     public MovieArrayAdapter(Context context, List<Movie> movies){
         super(context, android.R.layout.simple_list_item_1, movies);
     }
@@ -30,11 +37,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Movie movie = getItem(position);
-        if(convertView == null){
+        /*if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
 
         }
+
 
         ImageView imageView = (ImageView)convertView.findViewById(R.id.ivMovie);
         imageView.setImageResource(0);
@@ -51,6 +59,37 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             Log.d("DEBUG", "Configuration.ORIENTATION_LANDSCAPE"+ Configuration.ORIENTATION_LANDSCAPE);
         }else{
             Picasso.with(getContext()).load(movie.getPosterPath()).into(imageView);
+            Log.d("DEBUG", "Configuration.ORIENTATION_PORTRAIT"+ Configuration.ORIENTATION_PORTRAIT);
+        }*/
+
+
+        ViewHolder viewHolder; // view lookup cache stored in tag
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_movie, parent, false);
+
+            viewHolder.txTitle = (TextView)convertView.findViewById(R.id.txTitle);
+            viewHolder.txDesc = (TextView)convertView.findViewById(R.id.txDesc);
+
+            viewHolder.ivView = (ImageView)convertView.findViewById(R.id.ivMovie);
+            viewHolder.ivView .setImageResource(0);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        // Populate the data into the template view using the data object
+        viewHolder.txTitle.setText(movie.getOriginalTitle());
+        viewHolder.txDesc.setText(movie.getOverview());
+
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if(orientation== Configuration.ORIENTATION_LANDSCAPE){
+            Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.ivView);
+            Log.d("DEBUG", "Configuration.ORIENTATION_LANDSCAPE"+ Configuration.ORIENTATION_LANDSCAPE);
+        }else{
+            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivView);
             Log.d("DEBUG", "Configuration.ORIENTATION_PORTRAIT"+ Configuration.ORIENTATION_PORTRAIT);
         }
 
