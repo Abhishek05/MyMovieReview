@@ -11,8 +11,8 @@
  
  * [x] User can view a list of movies (title, poster image, and overview) currently playing in theaters from the Movie Database API.
  * [x] For each movie displayed, user can see the following details:
- * [ x] Title, Poster Image, Overview (Portrait mode)
- * [ x] Title, Backdrop Image, Overview (Landscape mode)
+ * [x] Title, Poster Image, Overview (Portrait mode)
+ * [x] Title, Backdrop Image, Overview (Landscape mode)
  
  
  The following **optional** features are implemented:
